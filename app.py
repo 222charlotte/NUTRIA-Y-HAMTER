@@ -4,7 +4,7 @@ import base64
 
 st.set_page_config(page_title="Archivo de Memoria", page_icon="💖")
 
-# CSS para la lluvia de emojis y diseño
+# CSS para la lluvia de emojis infinita
 st.markdown("""
     <style>
     .stApp { background-color: #0c0f12; color: white; overflow: hidden; }
@@ -15,7 +15,8 @@ st.markdown("""
     </style>
     <div class="emoji" style="left: 5%; animation-duration: 8s;">❤️</div>
     <div class="emoji" style="left: 15%; animation-duration: 12s;">❄️</div>
-    <div class="emoji" style="left: 35%; animation-duration: 9s;">💖</div>
+    <div class="emoji" style="left: 25%; animation-duration: 10s;">✨</div>
+    <div class="emoji" style="left: 40%; animation-duration: 15s;">💖</div>
     <div class="emoji" style="left: 60%; animation-duration: 9s;">🌹</div>
     <div class="emoji" style="left: 75%; animation-duration: 14s;">💞</div>
     <div class="emoji" style="left: 90%; animation-duration: 11s;">❄️</div>
@@ -47,7 +48,7 @@ elif not st.session_state.paso_2:
 else:
     st.success("¡Acceso total concedido!")
     if st.button(" [ PULSE PARA INICIAR EL ESPECTÁCULO ] "):
-        # Reproducción de audio codificada
+        # Reproducción de audio
         with open("cancion.mp3", "rb") as f:
             b64 = base64.b64encode(f.read()).decode()
             st.markdown(f'<audio autoplay loop><source src="data:audio/mp3;base64,{b64}" type="audio/mp3"></audio>', unsafe_allow_html=True)
@@ -67,8 +68,19 @@ else:
             for char in parrafo:
                 texto_total += char
                 placeholder.markdown(f"### {texto_total}")
-                time.sleep(0.09)
+                time.sleep(0.02)
             time.sleep(2.0)
             
-        # El tulipán final como emoji grande
-        st.markdown("<div style='text-align: center; font-size: 150px;'>🌷</div>", unsafe_allow_html=True)
+        # Flor matemática vectorial (no es imagen externa)
+        st.markdown("""
+        <svg width="400" height="400" viewBox="-150 -150 300 300">
+            <circle cx="0" cy="0" r="20" fill="brown"/>
+            <g id="petalos">
+                <script>
+                    for(let i=0; i<16; i++) {
+                        document.write(`<path d="M0,0 Q50,50 0,100 Q-50,50 0,0" fill="#FF69B4" transform="rotate(${i*22.5})"/>`);
+                    }
+                </script>
+            </g>
+        </svg>
+        """, unsafe_allow_html=True)
