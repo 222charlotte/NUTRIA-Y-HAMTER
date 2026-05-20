@@ -38,7 +38,7 @@ if not st.session_state.paso_1:
 elif not st.session_state.paso_2:
     st.success("¡Fecha correcta! Ahora el último paso.")
     apodo = st.text_input("🔑 PASO 2: DIME MI APODO RECIENTE EN MAYUSCULA :", type="password").upper()
-    if apodo == "CHELSITO" or apodo == "CHEFSITO" or apodo =="CHESITO"
+    if apodo == "CHELSITO" or apodo == "CHEFSITO" or apodo =="CHESITO":
         st.session_state.paso_2 = True
         st.rerun()
     elif apodo != "":
