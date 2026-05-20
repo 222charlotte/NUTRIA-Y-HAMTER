@@ -14,7 +14,7 @@ st.markdown("""
 
 st.title("Archivo de Memoria: Nutria y Hámster")
 
-# Función para reproducir el audio automáticamente al iniciar
+# Función para reproducir audio
 def autoplay_audio(file_path):
     with open(file_path, "rb") as f:
         data = f.read()
@@ -36,15 +36,15 @@ if st.button(" [ PULSE PARA INICIAR ] "):
         "✨ Gracias por haber sido mi historia durante 7 años. Sigue rompiéndola. Te deseo lo mejor 🧡.\n"
     ]
     
-    # Efecto de escritura lento
+    # Efecto de escritura más lento
     placeholder = st.empty()
     texto_total = ""
     for parrafo in historia:
         for char in parrafo:
             texto_total += char
             placeholder.markdown(f"### {texto_total}")
-            time.sleep(0.06) # Velocidad lenta para lectura cómoda
-        time.sleep(1.5) # Pausa entre párrafos
+            time.sleep(0.09) # Lento y pausado
+        time.sleep(2.0) # Pausa larga entre párrafos para respirar
             
     st.subheader("👉 Y PARA FINALIZAR UN OBSEQUIO PARA LA NIÑA MAS HERMOSA...")
     st.image("tulipan.png", width=350)
