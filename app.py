@@ -4,7 +4,7 @@ import base64
 
 st.set_page_config(page_title="Archivo de Memoria", page_icon="💖")
 
-# CSS para la lluvia de emojis infinita
+# CSS para la lluvia de emojis infinita (sin archivos externos)
 st.markdown("""
     <style>
     .stApp { background-color: #0c0f12; color: white; overflow: hidden; }
@@ -24,41 +24,35 @@ st.markdown("""
 
 st.title("Archivo de Memoria: Nutria y Hámster")
 
-# Estados para la lógica paso a paso
+# Lógica de seguridad
 if 'paso_1' not in st.session_state: st.session_state.paso_1 = False
 if 'paso_2' not in st.session_state: st.session_state.paso_2 = False
 
 if not st.session_state.paso_1:
-    fecha = st.text_input("🔑 PASO 1: INGRESA LA FECHA QUE INICIÓ TODO (DD/MM/AAAA):")
+    fecha = st.text_input("🔑 PASO 1: INGRESA LA FECHA (DD/MM/AAAA):")
     if fecha == "27/04/2019":
         st.session_state.paso_1 = True
         st.rerun()
-    elif fecha != "":
-        st.error("❌ Fecha incorrecta.")
-
 elif not st.session_state.paso_2:
-    st.success("¡Fecha correcta! Ahora el último paso.")
-    apodo = st.text_input("🔑 PASO 2: DIME MI APODO RECIENTE (CHELSITO O CHEFSITO):", type="password").upper()
+    apodo = st.text_input("🔑 PASO 2: DIME MI APODO (CHELSITO O CHEFSITO):", type="password").upper()
     if apodo == "CHELSITO" or apodo == "CHEFSITO":
         st.session_state.paso_2 = True
         st.rerun()
-    elif apodo != "":
-        st.error("❌ Apodo incorrecto.")
-
 else:
-    st.success("¡Acceso total concedido!")
     if st.button(" [ PULSE PARA INICIAR EL ESPECTÁCULO ] "):
-        # Reproducción de audio
-        with open("cancion.mp3", "rb") as f:
-            b64 = base64.b64encode(f.read()).decode()
-            st.markdown(f'<audio autoplay loop><source src="data:audio/mp3;base64,{b64}" type="audio/mp3"></audio>', unsafe_allow_html=True)
+        # Audio (Solo si existe el archivo, si no, lo ignora para no romper la app)
+        try:
+            with open("cancion.mp3", "rb") as f:
+                b64 = base64.b64encode(f.read()).decode()
+                st.markdown(f'<audio autoplay loop><source src="data:audio/mp3;base64,{b64}" type="audio/mp3"></audio>', unsafe_allow_html=True)
+        except: pass
         
         historia = [
-            "Siete años de enamorados 💞 y casi tres compartiendo un hogar dejan una marca 💖 que ningún borrado de sistema puede quitar 🛠️. Hemos pasado por absolutamente de todo, desde momentos llenos de adrenalina como el canotaje en Tarapoto 🚣 donde la pasamos de la ctmr, hasta la inmensa alegría de poder cumplirte cada capricho, obsequiándote esos perfumes 💐 o los iPhones 📱 que veías. Poder darte todo eso sabiendo que antes no teníamos cómo, ha sido de las satisfacciones más hermosas y puras ✨ que me llevo en el corazón ❤️.\n\n",
-            "La convivencia al inicio no fue algo hermoso ni fácil 🏠, pero cada día mejorábamos 📈. Me acuerdo y me río solo de cuando cocinaste esa sopa 🍲 y le echaste un huevo que terminó estando podrido 🥚; se echó a perder todo, pero nos reímos demasiado 😂. Esos contrastes eran lo mejor de nosotros. Por eso, lo que más voy a extrañar con el alma entera son esas amanecidas que nos dábamos casi todos los días 🌜: conversar en la madrugada, hablar de nuestro futuro 🗺️, de nuestros problemas, de nuestras dudas... de todo hablábamos 🗣️. Pasamos también llantos profundos, como cuando se nos extravió nuestro gatito en ese taxi 🐱💔 y que me deprimió tanto 🥺; pero ahí estuvimos, apoyándonos y conviviendo.\n\n",
-            "Siempre estuve acostumbrado a llevar toda la carga yo solo 🪨. Hubo una noche en que mi método para generar dinero se vino abajo 📉; mientras dormías, lloré de confusión pidiéndole ayuda a Dios 🙏 y me juré a mí mismo que a esa mujer NUNCA le faltaría nada a mi lado 🛡️. Me senté a buscar soluciones y las hallé, desordenando mi vida entera para que tú estuvieras segura. Por eso, cuando te levantabas llorando de tus sueños 😢, lo único que me importaba era abrazarte muy fuerte 🫂, besarte la frente 😘 y decirte al oído: 'Tranquila, nadie te podrá lastimar'. Quise ser tu refugio 🔐.\n\n",
-            "Sé perfectamente que en este largo camino nuestras acciones nos lastimaron 💔, y hoy tengo la entera madurez de reconocer que fui yo quien cometió el error ⚖️ que terminó afectando lo nuestro. No busco excusas 🗳️. Admiro profundamente la mujer fuerte que eres; toda esa carga pesada de tu infancia 🎒 la estás transformando en superación al estudiar Psicología 🧠. Fuiste hecha para sanar e iluminar 🌟 la vida de otros, y sé que vas a ser una profesional extraordinaria 🎓. Nunca olvides de lo que eres capaz.\n\n",
-            "Me quedo con el recuerdo de nuestra cena en ese restaurante lindo 🍽️, con tus flores 🌹 y esa noche inolvidable ✨ donde todo el esfuerzo valió la pena. Éxitos en tu universidad y en cada paso que des 👣.\n\n",
+            "Siete años de enamorados 💞 y casi tres compartiendo un hogar dejan una marca 💖 que ningún borrado de sistema puede quitar 🛠️...",
+            "La convivencia al inicio no fue algo hermoso ni fácil 🏠, pero cada día mejorábamos 📈. Esos contrastes eran lo mejor de nosotros...",
+            "Siempre estuve acostumbrado a llevar toda la carga yo solo 🪨. Pero me juré a mí mismo que a esa mujer NUNCA le faltaría nada a mi lado 🛡️...",
+            "Sé perfectamente que en este largo camino nuestras acciones nos lastimaron 💔. Admiro profundamente la mujer fuerte que eres...",
+            "Me quedo con el recuerdo de nuestra cena en ese restaurante lindo 🍽️ y esa noche inolvidable ✨...",
             "✨ Gracias por haber sido mi historia durante 7 años. Sigue rompiéndola. Te deseo lo mejor 🧡.\n"
         ]
         
@@ -68,19 +62,8 @@ else:
             for char in parrafo:
                 texto_total += char
                 placeholder.markdown(f"### {texto_total}")
-                time.sleep(0.02)
-            time.sleep(2.0)
+                time.sleep(0.01)
+            time.sleep(1.0)
             
-        # Flor matemática vectorial (no es imagen externa)
-        st.markdown("""
-        <svg width="400" height="400" viewBox="-150 -150 300 300">
-            <circle cx="0" cy="0" r="20" fill="brown"/>
-            <g id="petalos">
-                <script>
-                    for(let i=0; i<16; i++) {
-                        document.write(`<path d="M0,0 Q50,50 0,100 Q-50,50 0,0" fill="#FF69B4" transform="rotate(${i*22.5})"/>`);
-                    }
-                </script>
-            </g>
-        </svg>
-        """, unsafe_allow_html=True)
+        # Tulipán final como emoji grande
+        st.markdown("<h1 style='text-align: center; font-size: 100px;'>🌷</h1>", unsafe_allow_html=True)
