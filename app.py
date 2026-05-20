@@ -4,15 +4,25 @@ import base64
 
 st.set_page_config(page_title="Archivo de Memoria", page_icon="💖")
 
-# CSS para el fondo animado (copos y corazones)
+# Animación infinita mejorada
 st.markdown("""
     <style>
-    .stApp { background-color: #0c0f12; color: white; overflow: hidden; }
-    .snow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-    .stButton>button { background-color: #ff4d6d; color: white; font-weight: bold; width: 100%; z-index: 10; }
+    .stApp { background-color: #0c0f12; color: white; overflow-x: hidden; }
+    @keyframes fall { 0% { transform: translateY(-10vh); } 100% { transform: translateY(110vh); } }
+    .emoji { position: fixed; font-size: 24px; animation: fall linear infinite; pointer-events: none; z-index: 0; opacity: 0.7; }
+    .stButton>button { background-color: #ff4d6d; color: white; font-weight: bold; width: 100%; z-index: 10; position: relative; }
     h1, h2, h3 { color: #17b890; position: relative; z-index: 10; }
     </style>
-    <div class="snow">❄️ ❤️ ✧ ✨ 💖 🌹 ❄️ ❤️ ✧ ✨ 💖 🌹</div>
+    <div class="emoji" style="left: 5%; animation-duration: 7s;">❤️</div>
+    <div class="emoji" style="left: 15%; animation-duration: 10s;">❄️</div>
+    <div class="emoji" style="left: 25%; animation-duration: 14s;">✨</div>
+    <div class="emoji" style="left: 35%; animation-duration: 9s;">💖</div>
+    <div class="emoji" style="left: 45%; animation-duration: 12s;">🌹</div>
+    <div class="emoji" style="left: 55%; animation-duration: 16s;">💞</div>
+    <div class="emoji" style="left: 65%; animation-duration: 8s;">✧</div>
+    <div class="emoji" style="left: 75%; animation-duration: 11s;">❄️</div>
+    <div class="emoji" style="left: 85%; animation-duration: 13s;">❤️</div>
+    <div class="emoji" style="left: 95%; animation-duration: 10s;">✨</div>
 """, unsafe_allow_html=True)
 
 st.title("Archivo de Memoria: Nutria y Hámster")
@@ -26,7 +36,7 @@ def autoplay_audio(file_path):
 
 clave = st.text_input("🔑 INGRESA LA FECHA QUE INICIÓ TODO (DD/MM/AAAA):")
 
-if clave == "27/04/2019": # Cambia esta fecha por la real
+if clave == "27/04/2019":
     st.success("¡Fecha correcta!")
     if st.button(" [ PULSE PARA INICIAR EL ESPECTÁCULO ] "):
         autoplay_audio("cancion.mp3")
