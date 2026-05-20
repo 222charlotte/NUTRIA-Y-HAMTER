@@ -74,6 +74,6 @@ else:
             for char in parrafo:
                 texto_total += char
                 placeholder.markdown(f"### {texto_total}")
-                time.sleep(0.09)
+                time.sleep(0.08)
             time.sleep(2.0)
         st.markdown("<h1 style='text-align: center; font-size: 100px;'>🌷</h1>", unsafe_allow_html=True)
