@@ -26,7 +26,7 @@ def autoplay_audio(file_path):
 
 clave = st.text_input("🔑 INGRESA LA FECHA QUE INICIÓ TODO (DD/MM/AAAA):")
 
-if clave == "20/05/2019": # Cambia esta fecha por la real
+if clave == "27/04/2019": # Cambia esta fecha por la real
     st.success("¡Fecha correcta!")
     if st.button(" [ PULSE PARA INICIAR EL ESPECTÁCULO ] "):
         autoplay_audio("cancion.mp3")
