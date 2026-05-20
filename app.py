@@ -2,18 +2,19 @@ import streamlit as st
 import time
 import base64
 
-# Configuración de diseño
+# Configuración de diseño estilo terminal oscura
 st.set_page_config(page_title="Archivo de Memoria", page_icon="💖")
 st.markdown("""
     <style>
     .stApp { background-color: #0c0f12; color: white; }
     .stButton>button { background-color: #ff4d6d; color: white; font-weight: bold; width: 100%; }
+    h1, h2, h3 { color: #17b890; }
     </style>
 """, unsafe_allow_html=True)
 
 st.title("Archivo de Memoria: Nutria y Hámster")
 
-# Función de audio mejorada
+# Función para reproducir el audio automáticamente al iniciar
 def autoplay_audio(file_path):
     with open(file_path, "rb") as f:
         data = f.read()
@@ -21,10 +22,11 @@ def autoplay_audio(file_path):
         md = f"""<audio autoplay loop><source src="data:audio/mp3;base64,{b64}" type="audio/mp3"></audio>"""
         st.markdown(md, unsafe_allow_html=True)
 
+# Botón principal
 if st.button(" [ PULSE PARA INICIAR ] "):
     autoplay_audio("cancion.mp3")
     
-    # Texto completo
+    # Historia completa
     historia = [
         "Siete años de enamorados 💞 y casi tres compartiendo un hogar dejan una marca 💖 que ningún borrado de sistema puede quitar 🛠️. Hemos pasado por absolutamente de todo, desde momentos llenos de adrenalina como el canotaje en Tarapoto 🚣 donde la pasamos de la ctmr, hasta la inmensa alegría de poder cumplirte cada capricho, obsequiándote esos perfumes 💐 o los iPhones 📱 que veías. Poder darte todo eso sabiendo que antes no teníamos cómo, ha sido de las satisfacciones más hermosas y puras ✨ que me llevo en el corazón ❤️.\n\n",
         "La convivencia al inicio no fue algo hermoso ni fácil 🏠, pero cada día mejorábamos 📈. Me acuerdo y me río solo de cuando cocinaste esa sopa 🍲 y le echaste un huevo que terminó estando podrido 🥚; se echó a perder todo, pero nos reímos demasiado 😂. Esos contrastes eran lo mejor de nosotros. Por eso, lo que más voy a extrañar con el alma entera son esas amanecidas que nos dábamos casi todos los días 🌜: conversar en la madrugada, hablar de nuestro futuro 🗺️, de nuestros problemas, de nuestras dudas... de todo hablábamos 🗣️. Pasamos también llantos profundos, como cuando se nos extravió nuestro gatito en ese taxi 🐱💔 y que me deprimió tanto 🥺; pero ahí estuvimos, apoyándonos y conviviendo.\n\n",
@@ -34,14 +36,15 @@ if st.button(" [ PULSE PARA INICIAR ] "):
         "✨ Gracias por haber sido mi historia durante 7 años. Sigue rompiéndola. Te deseo lo mejor 🧡.\n"
     ]
     
-    # Mostrar historia con efecto máquina de escribir
+    # Efecto de escritura lento
     placeholder = st.empty()
     texto_total = ""
     for parrafo in historia:
         for char in parrafo:
             texto_total += char
             placeholder.markdown(f"### {texto_total}")
-            time.sleep(0.02)
+            time.sleep(0.06) # Velocidad lenta para lectura cómoda
+        time.sleep(1.5) # Pausa entre párrafos
             
     st.subheader("👉 Y PARA FINALIZAR UN OBSEQUIO PARA LA NIÑA MAS HERMOSA...")
     st.image("tulipan.png", width=350)
