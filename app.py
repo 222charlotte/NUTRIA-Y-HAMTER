@@ -1,128 +1,64 @@
-import os
+import streamlit as st
 import time
-import random
-import threading
-import tkinter as tk
-from tkinter import messagebox
-from PIL import Image, ImageTk
-import pygame
+import base64
 
-# Ocultar prompt de pygame
-os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
+# Configuración básica
+st.set_page_config(page_title="Archivo de Memoria", page_icon="💖")
 
-class RegaloNutriaHamster:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Archivo de Memoria: Nutria y Hamster")
-        self.root.geometry("850x950")
-        self.root.configure(bg="#0c0f12")
-        self.root.resizable(False, False)
+# CSS para el fondo animado infinito
+st.markdown("""
+    <style>
+    .stApp { background-color: #0c0f12; color: white; overflow-x: hidden; }
+    @keyframes fall { 0% { transform: translateY(-10vh); } 100% { transform: translateY(110vh); } }
+    .emoji { position: fixed; font-size: 24px; animation: fall linear infinite; pointer-events: none; z-index: 0; opacity: 0.7; }
+    .stButton>button { background-color: #ff4d6d; color: white; font-weight: bold; width: 100%; z-index: 10; }
+    h1, h2, h3 { color: #17b890; position: relative; z-index: 10; }
+    </style>
+    <div class="emoji" style="left: 5%; animation-duration: 7s;">❤️</div>
+    <div class="emoji" style="left: 15%; animation-duration: 10s;">❄️</div>
+    <div class="emoji" style="left: 25%; animation-duration: 14s;">✨</div>
+    <div class="emoji" style="left: 35%; animation-duration: 9s;">💖</div>
+    <div class="emoji" style="left: 55%; animation-duration: 16s;">💞</div>
+    <div class="emoji" style="left: 75%; animation-duration: 11s;">❄️</div>
+    <div class="emoji" style="left: 85%; animation-duration: 13s;">❤️</div>
+""", unsafe_allow_html=True)
 
-        self.archivo_musica = "cancion.mp3"
-        self.archivo_imagen = "tulipan.png"
+st.title("Archivo de Memoria: Nutria y Hámster")
 
-        pygame.mixer.init()
-        self.particulas = []
-        self.simbolos = ['❄', '♥', '✨', '💖', '🌹', '💞', '✧']
+# Función para audio
+def get_audio_html(file_path):
+    with open(file_path, "rb") as f:
+        data = f.read()
+        b64 = base64.b64encode(data).decode()
+        return f'<audio autoplay loop><source src="data:audio/mp3;base64,{b64}" type="audio/mp3"></audio>'
+
+# Lógica de validación
+fecha = st.text_input("🔑 INGRESA LA FECHA QUE INICIÓ TODO (DD/MM/AAAA):")
+apodo = st.text_input("DIME MI APODO RECIENTE (CHELSITO O CHEFSITO):").upper()
+
+if fecha == "27/04/2019" and (apodo == "CHELSITO" or apodo == "CHEFSITO"):
+    st.success("¡Datos correctos!")
+    if st.button(" [ PULSE PARA INICIAR EL ESPECTÁCULO ] "):
+        st.markdown(get_audio_html("cancion.mp3"), unsafe_allow_html=True)
         
-        self.canvas = tk.Canvas(self.root, bg="#0c0f12", highlightthickness=0)
-        self.canvas.place(x=0, y=0, relwidth=1, relheight=1)
-
-        self.construir_interfaz()
-        self.animar_fondo()
-
-    def construir_interfaz(self):
-        # Campos de validación inicial
-        self.lbl_titulo = tk.Label(self.root, text="SISTEMA DE SEGURIDAD NUTRIA", font=("Consolas", 14, "bold"), fg="#17b890", bg="#0c0f12")
-        self.lbl_titulo.pack(pady=20)
-
-        self.lbl_fecha = tk.Label(self.root, text="FECHA QUE INICIÓ TODO (DD/MM/AAAA):", font=("Consolas", 10), fg="#ffffff", bg="#0c0f12")
-        self.lbl_fecha.pack()
-        self.entry_fecha = tk.Entry(self.root, font=("Consolas", 12))
-        self.entry_fecha.pack(pady=5)
-
-        self.lbl_apodo = tk.Label(self.root, text="DIME MI APODO RECIENTE (CHELSITO O CHEFSITO):", font=("Consolas", 10), fg="#ffffff", bg="#0c0f12")
-        self.lbl_apodo.pack(pady=(10, 0))
-        self.entry_apodo = tk.Entry(self.root, font=("Consolas", 12))
-        self.entry_apodo.pack(pady=5)
-
-        self.btn_validar = tk.Button(self.root, text="DESBLOQUEAR", command=self.validar_acceso, bg="#ff4d6d", fg="white", font=("Consolas", 10, "bold"))
-        self.btn_validar.pack(pady=20)
-
-        self.txt_carta = tk.Text(self.root, font=("Segoe UI Emoji", 11, "bold"), fg="#ffffff", bg="#0c0f12", bd=0, width=85, height=18, wrap="word", state="disabled")
-        self.txt_carta.pack_forget() # Oculto hasta desbloquear
-
-    def validar_acceso(self):
-        fecha = self.entry_fecha.get()
-        apodo = self.entry_apodo.get().upper()
+        historia = [
+            "Siete años de enamorados 💞 y casi tres compartiendo un hogar dejan una marca 💖 que ningún borrado de sistema puede quitar 🛠️. Hemos pasado por absolutamente de todo, desde momentos llenos de adrenalina como el canotaje en Tarapoto 🚣 donde la pasamos de la ctmr, hasta la inmensa alegría de poder cumplirte cada capricho, obsequiándote esos perfumes 💐 o los iPhones 📱 que veías. Poder darte todo eso sabiendo que antes no teníamos cómo, ha sido de las satisfacciones más hermosas y puras ✨ que me llevo en el corazón ❤️.\n\n",
+            "La convivencia al inicio no fue algo hermoso ni fácil 🏠, pero cada día mejorábamos 📈. Me acuerdo y me río solo de cuando cocinaste esa sopa 🍲 y le echaste un huevo que terminó estando podrido 🥚; se echó a perder todo, pero nos reímos demasiado 😂. Esos contrastes eran lo mejor de nosotros. Por eso, lo que más voy a extrañar con el alma entera son esas amanecidas que nos dábamos casi todos los días 🌜: conversar en la madrugada, hablar de nuestro futuro 🗺️, de nuestros problemas, de nuestras dudas... de todo hablábamos 🗣️. Pasamos también llantos profundos, como cuando se nos extravió nuestro gatito en ese taxi 🐱💔 y que me deprimió tanto 🥺; pero ahí estuvimos, apoyándonos y conviviendo.\n\n",
+            "Siempre estuve acostumbrado a llevar toda la carga yo solo 🪨. Hubo una noche en que mi método para generar dinero se vino abajo 📉; mientras dormías, lloré de confusión pidiéndole ayuda a Dios 🙏 y me juré a mí mismo que a esa mujer NUNCA le faltaría nada a mi lado 🛡️. Me senté a buscar soluciones y las hallé, desordenando mi vida entera para que tú estuvieras segura. Por eso, cuando te levantabas llorando de tus sueños 😢, lo único que me importaba era abrazarte muy fuerte 🫂, besarte la frente 😘 y decirte al oído: 'Tranquila, nadie te podrá lastimar'. Quise ser tu refugio 🔐.\n\n",
+            "Sé perfectamente que en este largo camino nuestras acciones nos lastimaron 💔, y hoy tengo la entera madurez de reconocer que fui yo quien cometió el error ⚖️ que terminó afectando lo nuestro. No busco excusas 🗳️. Admiro profundamente la mujer fuerte que eres; toda esa carga pesada de tu infancia 🎒 la estás transformando en superación al estudiar Psicología 🧠. Fuiste hecha para sanar e iluminar 🌟 la vida de otros, y sé que vas a ser una profesional extraordinaria 🎓. Nunca olvides de lo que eres capaz.\n\n",
+            "Me quedo con el recuerdo de nuestra cena en ese restaurante lindo 🍽️, con tus flores 🌹 y esa noche inolvidable ✨ donde todo el esfuerzo valió la pena. Éxitos en tu universidad y en cada paso que des 👣.\n\n",
+            "✨ Gracias por haber sido mi historia durante 7 años. Sigue rompiéndola. Te deseo lo mejor 🧡.\n"
+        ]
         
-        if fecha == "27/04/2019" and (apodo == "CHELSITO" or apodo == "CHEFSITO"):
-            # Ocultar campos de validación
-            self.lbl_titulo.pack_forget()
-            self.lbl_fecha.pack_forget()
-            self.entry_fecha.pack_forget()
-            self.lbl_apodo.pack_forget()
-            self.entry_apodo.pack_forget()
-            self.btn_validar.pack_forget()
-            
-            # Mostrar interfaz real
-            self.txt_carta.pack(pady=5)
-            self.txt_carta.config(state="normal")
-            
-            self.btn_inicio = tk.Button(self.root, text=" [ PULSE PARA INICIAR ] ", font=("Consolas", 11, "bold"), 
-                                        fg="#0c0f12", bg="#ff4d6d", bd=0, padx=20, pady=8, cursor="hand2", 
-                                        command=self.comenzar_experiencia)
-            self.btn_inicio.pack(pady=5)
-            self.lbl_frase = tk.Label(self.root, text="", font=("Segoe UI Emoji", 11, "bold"), fg="#17b890", bg="#0c0f12")
-            self.lbl_frase.pack(pady=5)
-            self.lbl_foto = tk.Label(self.root, bg="#0c0f12")
-            self.lbl_foto.pack(pady=5)
-        else:
-            messagebox.showerror("Error", "Datos incorrectos. Intenta de nuevo.")
-
-    # ... (El resto de tus métodos: animar_fondo, comenzar_experiencia y efecto_maquina siguen igual)
-    
-    def animar_fondo(self):
-        if len(self.particulas) < 80:
-            x = random.randint(10, 840)
-            char = random.choice(self.simbolos)
-            id_p = self.canvas.create_text(x, 0, text=char, font=("Segoe UI Emoji", 15), fill=random.choice(["#ff4d6d", "#ffffff", "#ade8f4"]))
-            self.particulas.append({'id': id_p, 'x': x, 'y': 0, 'vel': random.uniform(2, 4)})
-        for p in self.particulas[:]:
-            p['y'] += p['vel']
-            self.canvas.coords(p['id'], p['x'], p['y'])
-            if p['y'] > 950:
-                self.canvas.delete(p['id'])
-                self.particulas.remove(p)
-        self.root.after(40, self.animar_fondo)
-
-    def comenzar_experiencia(self):
-        self.btn_inicio.config(state="disabled", text="🎵 REPRODUCIENDO...")
-        try:
-            pygame.mixer.music.load(self.archivo_musica)
-            pygame.mixer.music.play(-1)
-        except: pass
-        threading.Thread(target=self.efecto_maquina, daemon=True).start()
-
-    def efecto_maquina(self):
-        # (Tu bloque de 'parrafos' igual que siempre)
-        parrafos = ["Siete años de enamorados 💞... (etc, pega aquí el resto de tu carta)", ...] 
-        self.txt_carta.config(state="normal")
-        for p in parrafos:
-            for char in p:
-                self.txt_carta.insert(tk.END, char)
-                self.txt_carta.see(tk.END)
+        placeholder = st.empty()
+        texto_total = ""
+        for parrafo in historia:
+            for char in parrafo:
+                texto_total += char
+                placeholder.markdown(f"### {texto_total}")
                 time.sleep(0.09)
             time.sleep(2.0)
-        self.txt_carta.config(state="disabled")
-        self.lbl_frase.config(text="👉 Y PARA FINALIZAR UN OBSEQUIO...")
-        try:
-            img = Image.open(self.archivo_imagen).resize((340, 380), Image.Resampling.LANCZOS)
-            self.tk_img = ImageTk.PhotoImage(img)
-            self.lbl_foto.config(image=self.tk_img)
-        except: pass
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = RegaloNutriaHamster(root)
-    root.mainloop()
+                
+        st.markdown("<h1 style='text-align: center; font-size: 100px;'>🌷</h1>", unsafe_allow_html=True)
+elif fecha != "" or apodo != "":
+    st.error("❌ Datos incorrectos, inténtalo de nuevo...")
