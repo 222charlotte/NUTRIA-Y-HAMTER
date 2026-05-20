@@ -2,19 +2,21 @@ import streamlit as st
 import time
 import base64
 
-# Configuración de diseño
 st.set_page_config(page_title="Archivo de Memoria", page_icon="💖")
+
+# CSS para el fondo animado (copos y corazones)
 st.markdown("""
     <style>
-    .stApp { background-color: #0c0f12; color: white; }
-    .stButton>button { background-color: #ff4d6d; color: white; font-weight: bold; width: 100%; }
-    h1, h2, h3 { color: #17b890; }
+    .stApp { background-color: #0c0f12; color: white; overflow: hidden; }
+    .snow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+    .stButton>button { background-color: #ff4d6d; color: white; font-weight: bold; width: 100%; z-index: 10; }
+    h1, h2, h3 { color: #17b890; position: relative; z-index: 10; }
     </style>
+    <div class="snow">❄️ ❤️ ✧ ✨ 💖 🌹 ❄️ ❤️ ✧ ✨ 💖 🌹</div>
 """, unsafe_allow_html=True)
 
 st.title("Archivo de Memoria: Nutria y Hámster")
 
-# Función de audio
 def autoplay_audio(file_path):
     with open(file_path, "rb") as f:
         data = f.read()
@@ -22,13 +24,10 @@ def autoplay_audio(file_path):
         md = f"""<audio autoplay loop><source src="data:audio/mp3;base64,{b64}" type="audio/mp3"></audio>"""
         st.markdown(md, unsafe_allow_html=True)
 
-# 1. PANTALLA DE BLOQUEO (La clave)
 clave = st.text_input("🔑 INGRESA LA FECHA QUE INICIÓ TODO (DD/MM/AAAA):")
 
-if clave == "27/04/2019": # REEMPLAZA ESTA FECHA POR LA TUYA REAL
-    st.success("¡Fecha correcta! Preparando el archivo...")
-    
-    # 2. BOTÓN DE INICIO
+if clave == "20/05/2019": # Cambia esta fecha por la real
+    st.success("¡Fecha correcta!")
     if st.button(" [ PULSE PARA INICIAR EL ESPECTÁCULO ] "):
         autoplay_audio("cancion.mp3")
         
