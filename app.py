@@ -27,10 +27,11 @@ if not st.session_state.paso_1:
     elif fecha != "":
         st.error("❌ Fecha incorrecta.")
 
-# PASO 2: Pedir apodo
+# PASO 2: Pedir apodo con formato secreto
 elif not st.session_state.paso_2:
     st.success("¡Fecha correcta! Ahora el último paso.")
-    apodo = st.text_input("🔑 PASO 2: DIME MI APODO RECIENTE (CHELSITO O CHEFSITO):").upper()
+    # Usamos type="password" para que no se vea lo que escribe
+    apodo = st.text_input("🔑 PASO 2: DIME MI APODO RECIENTE (CHELSITO O CHEFSITO):", type="password").upper()
     if apodo == "CHELSITO" or apodo == "CHEFSITO":
         st.session_state.paso_2 = True
         st.rerun()
